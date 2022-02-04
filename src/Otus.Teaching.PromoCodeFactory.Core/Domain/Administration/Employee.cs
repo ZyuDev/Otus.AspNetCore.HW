@@ -16,5 +16,18 @@ namespace Otus.Teaching.PromoCodeFactory.Core.Domain.Administration
         public List<Role> Roles { get; set; }
 
         public int AppliedPromocodesCount { get; set; }
+
+        public override void Update(BaseEntity source)
+        {
+
+            if (source is Employee sourceEmployee)
+            {
+                FirstName = sourceEmployee.FirstName;
+                LastName = sourceEmployee.LastName;
+                Email = sourceEmployee.Email;
+            }
+
+        }
+       
     }
 }

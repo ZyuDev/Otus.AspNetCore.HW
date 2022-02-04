@@ -71,5 +71,82 @@ namespace Otus.Teaching.PromoCodeFactory.WebHost.Controllers
 
             return employeeModel;
         }
+
+        /// <summary>
+        /// Создает нового сотрудника
+        /// </summary>
+        /// <param name="dto"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public async Task<ActionResult<Guid>> CreateEmployee(CreateEmployeeDto dto)
+        {
+            var newEmployee = new Employee()
+            {
+                FirstName = dto.FirstName,
+                LastName = dto.LastName,
+                Email = dto.Email
+            };
+
+            var result = await _employeeRepository.AddAsync(newEmployee);
+
+            if (result == 0)
+            {
+                return Conflict();
+            }
+            else
+            {
+                return Ok(newEmployee.Id);
+            }
+
+        }
+
+        /// <summary>
+        /// Update Employee
+        /// </summary>
+        /// <param name="dto"></param>
+        /// <returns></returns>
+        [HttpPut]
+        public async Task<ActionResult> UpdateEmployee(UpdateEmployeeDto dto)
+        {
+            var newEmployee = new Employee()
+            {
+                Id = dto.Id,
+                FirstName = dto.FirstName,
+                LastName = dto.LastName,
+                Email = dto.Email
+            };
+
+            var result = await _employeeRepository.UpdateAsync(newEmployee);
+
+            if (result == 0)
+            {
+                return NotFound("Item not found");
+            }
+            else
+            {
+                return Ok();
+            }
+
+        }
+
+        /// <summary>
+        /// Delete Employee by Id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpDelete("{id:guid}")]
+        public async Task<ActionResult> DeleteEmployee(Guid id)
+        {
+            var result = await _employeeRepository.DeleteAsync(id);
+
+            if (result == 0)
+            {
+                return NotFound("Item not found");
+            }
+            else
+            {
+                return Ok();
+            }
+        }
     }
 }

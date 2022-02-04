@@ -2,8 +2,10 @@
 
 namespace Otus.Teaching.PromoCodeFactory.Core.Domain
 {
-    public class BaseEntity
+    public abstract class BaseEntity
     {
-        public Guid Id { get; set; }
+        public Guid Id { get; set; } = Guid.NewGuid();
+
+        public abstract void Update(BaseEntity source);
     }
 }
